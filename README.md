@@ -55,17 +55,39 @@ docker compose up -d
 ### 方式二：本地开发
 
 ```bash
-# 后端
+# 后端（FastAPI）
 cd backend
 python -m venv .venv && .venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 
-# 前端
+# 前端（React + Vite）
 cd frontend
 npm install
+npm run dev          # 开发服务器默认 http://localhost:5173
+```
+
+> 前端开发服务器已把 `/api` 请求自动代理到 `http://localhost:8000`
+> （见 `frontend/vite.config.ts` 的 `server.proxy`），本地开发无需配置跨域。
+
+#### Windows 控制台乱码（重要）
+
+项目所有中文输出均为 **UTF-8** 编码；Windows 默认代码页是 GBK（936），直接运行 `npm` 命令会出现中文乱码。任选其一解决：
+
+| 方案 | 做法 |
+|---|---|
+| ① 推荐 | 使用 **Windows Terminal** 或 **VS Code 内置终端**（默认 UTF-8，零配置） |
+| ② 切换代码页 | 运行前先执行 `chcp 65001`，再 `npm run dev` |
+| ③ 一键脚本 | 直接双击 / 运行 `frontend\dev.bat`（已内置 `chcp 65001`，自动装依赖并启动） |
+
+```cmd
+:: 方案②示例
+chcp 65001
+cd frontend
 npm run dev
 ```
+
+> 后端 uvicorn 中文日志同理：Windows 下如需在普通 cmd 中查看，可先 `chcp 65001`。
 
 ### 环境要求
 
