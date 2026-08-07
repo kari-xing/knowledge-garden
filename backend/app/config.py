@@ -23,16 +23,22 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_DAYS: int = 7
 
-    # LLM Provider：ollama | openai_compatible
-    LLM_PROVIDER: str = "ollama"
+    # LLM Provider：deepseek（默认）| ollama | openai_compatible
+    LLM_PROVIDER: str = "deepseek"
+    # DeepSeek（默认 LLM，OpenAI 兼容协议）
+    DEEPSEEK_API_BASE: str = "https://api.deepseek.com"
+    DEEPSEEK_API_KEY: str = ""
+    DEEPSEEK_MODEL: str = "deepseek-v4-flash"
+    # Ollama 本地推理（可选，嵌入模型继续使用 bge-m3）
     OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "qwen2.5:7b"
+    OLLAMA_MODEL: str = "qwen2.5:3b"
     OLLAMA_EMBEDDING_MODEL: str = "bge-m3"
+    # 备选：任意 OpenAI 兼容 API
     OPENAI_API_BASE: str = "https://api.openai.com/v1"
     OPENAI_API_KEY: str = ""
     OPENAI_MODEL: str = "gpt-4o-mini"
     OPENAI_EMBEDDING_MODEL: str = "text-embedding-3-small"
-    EMBEDDING_DIM: int = 768
+    EMBEDDING_DIM: int = 1024
 
     # AI 流水线
     PIPELINE_VERSION: str = "v1"

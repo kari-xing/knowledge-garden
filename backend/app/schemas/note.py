@@ -46,6 +46,16 @@ class NoteCreateOut(BaseModel):
     message: str
 
 
+class ReprocessResult(BaseModel):
+    """重新处理任务结果（与 NoteCreateOut 同构）。"""
+
+    id: uuid.UUID
+    status: str
+    processing_status: str
+    job_id: uuid.UUID
+    message: str
+
+
 class RelatedNoteOut(BaseModel):
     id: uuid.UUID
     title: str | None

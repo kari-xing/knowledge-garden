@@ -55,6 +55,9 @@ services:
       CHROMA_HOST: chromadb
       CHROMA_PORT: 8000
       OLLAMA_BASE_URL: http://ollama:11434
+      DEEPSEEK_API_BASE: https://api.deepseek.com
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_MODEL: deepseek-v4-flash
       DEBUG: "false"
     depends_on:
       postgres:

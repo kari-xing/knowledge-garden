@@ -4,7 +4,7 @@ import { useUiStore } from '../stores/uiStore';
 
 const ENV_INFO: { key: string; label: string }[] = [
   { key: import.meta.env.VITE_API_BASE ?? '/api/v1', label: 'API 地址' },
-  { key: import.meta.env.VITE_LLM_PROVIDER ?? 'ollama（默认）', label: 'LLM Provider' },
+  { key: import.meta.env.VITE_LLM_PROVIDER ?? 'deepseek（默认）', label: 'LLM Provider' },
 ];
 
 /** 设置页：主题 / 账户 / 环境信息（轻量） */

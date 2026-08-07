@@ -28,7 +28,7 @@
 
 **后端**：FastAPI · asyncio · asyncpg · Pydantic v2 · ARQ（异步任务队列）
 
-**数据与 AI**：PostgreSQL 16 · ChromaDB · Redis · Ollama（本地 LLM，支持 OpenAI 兼容 API 切换）
+**数据与 AI**：PostgreSQL 16 · ChromaDB · Redis · DeepSeek（默认云端 LLM）· Ollama（可选本地 LLM / bge-m3 嵌入）
 
 **部署**：Docker Compose 一键启动
 
@@ -50,16 +50,18 @@ docker compose up -d
 #    后端   http://localhost:8000/docs   （FastAPI 自动生成的 API 文档）
 ```
 
-> 首次使用需先安装本地 LLM 模型：`ollama pull qwen2.5:7b && ollama pull bge-m3`
+> AI 功能默认走 DeepSeek（模型 `deepseek-v4-flash`）：在 `backend/.env` 中配置 `DEEPSEEK_API_KEY` 即可。
+> 如需本地推理，将 `LLM_PROVIDER=ollama` 并先安装本地模型：`ollama pull qwen2.5:7b && ollama pull bge-m3`（嵌入模型固定使用 bge-m3）。
 
 ### 方式二：本地开发
 
 ```bash
-# 后端（FastAPI）
+# 后端（FastAPI）—— 先启动基础设施容器：docker compose up -d postgres redis chromadb
 cd backend
-python -m venv .venv && .venv\Scripts\activate
+py -3 -m venv .venv && .venv\Scripts\activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8011
+# 或直接双击 backend\start.bat（自动建 venv / 装依赖 / 启动）
 
 # 前端（React + Vite）
 cd frontend
@@ -96,7 +98,8 @@ npm run dev
 | Node.js | ≥ 18 |
 | Python | ≥ 3.11 |
 | PostgreSQL | ≥ 15（16 推荐） |
-| Ollama | ≥ 0.3（可选，AI 功能必需） |
+| DeepSeek | 云端 API（AI 功能默认，需在 `backend/.env` 配置 `DEEPSEEK_API_KEY`） |
+| Ollama | ≥ 0.3（可选，本地 LLM / bge-m3 嵌入） |
 
 ---
 
@@ -190,6 +193,7 @@ Base URL：`/api/v1` · 鉴权：`Authorization: Bearer <JWT>`
 
 - [《需求.md》](需求.md) —— 原始需求（快速浏览）
 - [《需求-详细设计.md》](需求-详细设计.md) —— 完整需求与设计方案：功能模块、数据模型、算法、API 契约、验收标准
+- [《设计文档.md》](docs/设计文档.md) —— 实现版设计：架构、数据模型、API 清单、踩坑记录、优化路线图
 
 ---
 
